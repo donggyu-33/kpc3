@@ -14,26 +14,221 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 🌟 파일 업로더 텍스트 수정을 위한 안정화된 JavaScript 코드 🌟 (유지)
+# 🌟 블랙 톤 UI 스타일 🌟
 st.markdown("""
 <style>
-    /* 초기화 버튼 스타일 CSS (기존 유지) */
-    div[data-testid="column"]:nth-of-type(2) button {
-        background-color: #000000 !important;
-        color: #FFFFFF !important;
-        border: 1px solid #333333 !important;
-    }
-    div[data-testid="column"]:nth-of-type(2) button:hover {
-        background-color: #1a1a1a !important;
-        border: 1px solid #555555 !important;
+    /* 전체 배경 및 기본 색상 */
+    .stApp {
+        background-color: #0a0a0a;
+        color: #e0e0e0;
     }
     
-    /* 읽기전용 textarea 스타일 수정 - 검은색 글씨, 기본 커서 */
+    /* 헤더 스타일 */
+    h1, h2, h3, h4, h5, h6 {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+    }
+    
+    /* 메인 타이틀 */
+    h1 {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    /* 구분선 */
+    hr {
+        border-color: #333333 !important;
+        margin: 2rem 0 !important;
+    }
+    
+    /* 카드/컨테이너 스타일 */
+    .element-container, .stMarkdown, div[data-testid="stMarkdownContainer"] {
+        color: #e0e0e0 !important;
+    }
+    
+    /* 분석하기 버튼 (Primary) */
+    div[data-testid="column"]:nth-of-type(1) button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+    }
+    div[data-testid="column"]:nth-of-type(1) button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3) !important;
+    }
+    
+    /* 초기화 버튼 */
+    div[data-testid="column"]:nth-of-type(2) button {
+        background-color: #1a1a1a !important;
+        color: #e0e0e0 !important;
+        border: 1px solid #333333 !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+    }
+    div[data-testid="column"]:nth-of-type(2) button:hover {
+        background-color: #2a2a2a !important;
+        border: 1px solid #667eea !important;
+    }
+    
+    /* 파일 업로더 스타일 */
+    section[data-testid="stFileUploadDropzone"] {
+        background-color: #1a1a1a !important;
+        border: 2px dashed #667eea !important;
+        border-radius: 12px !important;
+        padding: 2rem !important;
+    }
+    section[data-testid="stFileUploadDropzone"]:hover {
+        border-color: #764ba2 !important;
+        background-color: #252525 !important;
+    }
+    
+    /* 알림 박스 스타일 */
+    .stAlert {
+        background-color: #1a1a1a !important;
+        border-left: 4px solid #667eea !important;
+        color: #e0e0e0 !important;
+    }
+    
+    /* Warning */
+    div[data-baseweb="notification"][kind="warning"] {
+        background-color: #2a1a0a !important;
+        border-left: 4px solid #ff9800 !important;
+    }
+    
+    /* Success */
+    div[data-baseweb="notification"][kind="success"] {
+        background-color: #0a2a1a !important;
+        border-left: 4px solid #4caf50 !important;
+    }
+    
+    /* Error */
+    div[data-baseweb="notification"][kind="error"] {
+        background-color: #2a0a0a !important;
+        border-left: 4px solid #f44336 !important;
+    }
+    
+    /* Info */
+    div[data-baseweb="notification"][kind="info"] {
+        background-color: #0a1a2a !important;
+        border-left: 4px solid #667eea !important;
+    }
+    
+    /* 텍스트 영역 */
+    textarea {
+        background-color: #1a1a1a !important;
+        color: #e0e0e0 !important;
+        border: 1px solid #333333 !important;
+        border-radius: 8px !important;
+    }
+    textarea:focus {
+        border-color: #667eea !important;
+        box-shadow: 0 0 0 1px #667eea !important;
+    }
+    
+    /* 읽기전용 textarea */
     textarea[disabled] {
-        color: #000000 !important;
-        -webkit-text-fill-color: #000000 !important;
+        color: #b0b0b0 !important;
+        -webkit-text-fill-color: #b0b0b0 !important;
         opacity: 1 !important;
         cursor: text !important;
+        background-color: #0f0f0f !important;
+    }
+    
+    /* 입력 필드 */
+    input {
+        background-color: #1a1a1a !important;
+        color: #e0e0e0 !important;
+        border: 1px solid #333333 !important;
+        border-radius: 8px !important;
+    }
+    input:focus {
+        border-color: #667eea !important;
+        box-shadow: 0 0 0 1px #667eea !important;
+    }
+    
+    /* 채팅 메시지 */
+    .stChatMessage {
+        background-color: #1a1a1a !important;
+        border-radius: 12px !important;
+        padding: 1rem !important;
+        margin: 0.5rem 0 !important;
+    }
+    
+    /* 사용자 메시지 */
+    div[data-testid="stChatMessageContent"][data-role="user"] {
+        background: linear-gradient(135deg, #667eea22 0%, #764ba222 100%) !important;
+        border-left: 3px solid #667eea !important;
+    }
+    
+    /* 어시스턴트 메시지 */
+    div[data-testid="stChatMessageContent"][data-role="assistant"] {
+        background-color: #1a1a1a !important;
+        border-left: 3px solid #4caf50 !important;
+    }
+    
+    /* Expander */
+    .streamlit-expanderHeader {
+        background-color: #1a1a1a !important;
+        color: #e0e0e0 !important;
+        border: 1px solid #333333 !important;
+        border-radius: 8px !important;
+    }
+    .streamlit-expanderHeader:hover {
+        background-color: #252525 !important;
+        border-color: #667eea !important;
+    }
+    
+    /* 전송 버튼 (form 내부) */
+    .stForm button[kind="primaryFormSubmit"] {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: 600 !important;
+    }
+    
+    /* 사이드바 */
+    section[data-testid="stSidebar"] {
+        background-color: #0f0f0f !important;
+        border-right: 1px solid #333333 !important;
+    }
+    section[data-testid="stSidebar"] button {
+        background-color: #1a1a1a !important;
+        color: #e0e0e0 !important;
+        border: 1px solid #333333 !important;
+    }
+    section[data-testid="stSidebar"] button:hover {
+        background-color: #2a2a2a !important;
+        border-color: #667eea !important;
+    }
+    
+    /* 캡션 */
+    .css-1v0mbdj, .stCaptionContainer {
+        color: #888888 !important;
+    }
+    
+    /* Markdown 리스트 */
+    li {
+        color: #e0e0e0 !important;
+    }
+    
+    /* 코드 블록 */
+    code {
+        background-color: #1a1a1a !important;
+        color: #667eea !important;
+        border-radius: 4px !important;
+        padding: 2px 6px !important;
+    }
+    
+    /* 링크 */
+    a {
+        color: #667eea !important;
+    }
+    a:hover {
+        color: #764ba2 !important;
     }
 </style>
 <script>
@@ -443,13 +638,25 @@ if st.session_state.video_analyzed:
         categories = list(st.session_state.scores.keys())
         values = list(st.session_state.scores.values())
         
-        # ECharts 오각형(레이더) 차트 옵션
+        # ECharts 오각형(레이더) 차트 옵션 - 블랙 톤
         option = {
+            "backgroundColor": "#0a0a0a",
             "title": {
                 "text": "5가지 평가 기준 점수",
-                "left": "center"
+                "left": "center",
+                "textStyle": {
+                    "color": "#ffffff",
+                    "fontSize": 20,
+                    "fontWeight": "bold"
+                }
             },
-            "tooltip": {},
+            "tooltip": {
+                "backgroundColor": "#1a1a1a",
+                "borderColor": "#667eea",
+                "textStyle": {
+                    "color": "#e0e0e0"
+                }
+            },
             "radar": {
                 "indicator": [
                     {"name": cat, "max": 5} for cat in categories
@@ -457,8 +664,24 @@ if st.session_state.video_analyzed:
                 "radius": 120,
                 "splitNumber": 5,
                 "axisName": {
-                    "color": "#333",
-                    "fontSize": 12
+                    "color": "#e0e0e0",
+                    "fontSize": 12,
+                    "fontWeight": "bold"
+                },
+                "splitLine": {
+                    "lineStyle": {
+                        "color": "#333333"
+                    }
+                },
+                "splitArea": {
+                    "areaStyle": {
+                        "color": ["#1a1a1a", "#0f0f0f"]
+                    }
+                },
+                "axisLine": {
+                    "lineStyle": {
+                        "color": "#667eea"
+                    }
                 }
             },
             "series": [{
@@ -472,18 +695,19 @@ if st.session_state.video_analyzed:
                         "formatter": "{c}",
                         "fontSize": 14,
                         "fontWeight": "bold",
-                        "color": "#d32f2f"
+                        "color": "#667eea"
                     },
                     "areaStyle": {
-                        "color": "rgba(255, 99, 132, 0.3)"
+                        "color": "rgba(102, 126, 234, 0.3)"
                     },
                     "lineStyle": {
-                        "color": "rgba(255, 99, 132, 1)",
-                        "width": 2
+                        "color": "#667eea",
+                        "width": 3
                     },
                     "itemStyle": {
-                        "color": "rgba(255, 99, 132, 1)",
-                        "borderWidth": 3
+                        "color": "#764ba2",
+                        "borderWidth": 3,
+                        "borderColor": "#667eea"
                     }
                 }]
             }]
