@@ -643,7 +643,7 @@ if st.session_state.video_analyzed:
         option = {
             "backgroundColor": "#0a0a0a",
             "title": {
-                "text": "5가지 평가 기준 점수",
+                "text": "분석 결과",
                 "left": "center",
                 "textStyle": {
                     "color": "#ffffff",
