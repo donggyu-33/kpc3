@@ -632,7 +632,7 @@ if st.session_state.video_analyzed:
     
     # 🌟 2. 정량 평가 (점수 시각화) 🌟
     if st.session_state.scores:
-        st.subheader("2. 정량 평가 (점수)")
+        st.subheader("2. 정량 평가")
         
         # 점수 데이터 준비
         categories = list(st.session_state.scores.keys())
