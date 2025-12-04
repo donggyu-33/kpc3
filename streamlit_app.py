@@ -478,10 +478,11 @@ def get_chat_response(messages, initial_feedback, transcript=""):
 
 # 메인 UI
 st.title("🎓 시연강의 셀프분석 APP")
+st.markdown("이 어플리케이션은 한국생산성본부 사내강사양성(기본)과정 수강생을 위하여 개발되었습니다. 교육을 수강하고 귀가 후 본인의 강의에 대한 추가적인 피드백이 필요할때, 시연강의를 녹음하여 업로드하면 생성형 AI 기반으로 시연 강의를 분석하여 드립니다. :)")
 st.markdown("---")
 
 # 1. 음성 파일 업로드 섹션
-st.header("🎤 시연강의 업로드")
+st.header("👨‍🏫 시연강의 업로드")
 # JS로 텍스트를 변경하므로, Python의 st.warning은 간결하게 유지
 st.warning("⚠️ 필수: 음성 파일은 10MB 이하로 업로드해주세요.")
 uploaded_file = st.file_uploader("분석할 강의 시연 음성 파일을 업로드하세요 (mp3, wav, m4a 등)", type=["mp3", "wav", "m4a", "aac"])
