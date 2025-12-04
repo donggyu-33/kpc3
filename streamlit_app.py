@@ -477,11 +477,11 @@ def get_chat_response(messages, initial_feedback, transcript=""):
 # --- 메인 UI 영역 ---
 
 # 메인 UI
-st.title("🎓 강의 시연 음성 피드백 챗봇")
+st.title("🎓 시연강의 셀프분석 APP")
 st.markdown("---")
 
 # 1. 음성 파일 업로드 섹션
-st.header("🎤 강의 시연 음성 파일 업로드")
+st.header("🎤 시연강의 업로드")
 # JS로 텍스트를 변경하므로, Python의 st.warning은 간결하게 유지
 st.warning("⚠️ 필수: 음성 파일은 10MB 이하로 업로드해주세요.")
 uploaded_file = st.file_uploader("분석할 강의 시연 음성 파일을 업로드하세요 (mp3, wav, m4a 등)", type=["mp3", "wav", "m4a", "aac"])
@@ -615,10 +615,10 @@ elif analyze_button:
 # 2. 피드백 표시 섹션
 if st.session_state.video_analyzed:
     st.markdown("---")
-    st.header("📊 강의 시연 분석 피드백")
+    st.header("📊 시연강의 분석 레포트")
     
     # 🌟 1. 평가 기준 안내 🌟
-    st.subheader("### 1. 평가 기준")
+    st.subheader("1. 평가 기준")
     st.markdown("""
     **5가지 핵심 평가 기준 안내:**
     - **🎯 청중 적합성 및 목표 달성**: 강의 내용, 용어, 난이도가 청중의 니즈와 학습 목표에 부합하는지 평가
@@ -632,7 +632,7 @@ if st.session_state.video_analyzed:
     
     # 🌟 2. 정량 평가 (점수 시각화) 🌟
     if st.session_state.scores:
-        st.subheader("### 2. 정량 평가 (점수)")
+        st.subheader("2. 정량 평가 (점수)")
         
         # 점수 데이터 준비
         categories = list(st.session_state.scores.keys())
@@ -726,7 +726,7 @@ if st.session_state.video_analyzed:
     st.markdown("---")
     
     # 🌟 3. 정성 평가 (상세 피드백) 🌟
-    st.subheader("### 3. 정성 평가")
+    st.subheader("3. 정성 평가")
     
     # GPT 피드백에서 "### 1. 정량 평가 (점수)" 섹션 제거
     feedback_text = st.session_state.feedback
@@ -742,7 +742,7 @@ if st.session_state.video_analyzed:
     st.markdown("---")
     
     # 🌟 4. 피드백 관련 채팅 🌟
-    st.subheader("### 4. 피드백 관련 채팅")
+    st.subheader("4. 피드백 관련 채팅")
     st.markdown("피드백에 대해 추가적인 조언을 받아보세요.")
     
     # 채팅 메시지 표시
