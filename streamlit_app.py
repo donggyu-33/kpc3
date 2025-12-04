@@ -725,9 +725,20 @@ if st.session_state.video_analyzed:
                                             "color": "#667eea"
                                         },
                                         "itemStyle": {
-                                            "color": "#764ba2"
+                                            "color": "#764ba2",
+                                            "borderColor": "#667eea",
+                                            "borderWidth": 2
+                                        },
+                                        "label": {
+                                            "show": True,
+                                            "formatter": "{c}",
+                                            "color": "#667eea",
+                                            "fontSize": 12,
+                                            "fontWeight": "bold",
+                                            "distance": 8
                                         }
                                     }]
+                                }]
                                 }]
                             }
                             
