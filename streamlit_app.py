@@ -356,7 +356,9 @@ def analyze_transcript(transcript, segments):
 **C. 정성 피드백 (Markdown 형식):** 각 기준에 대한 구체적인 강점/약점 분석 및 개선 제안을 마크다운 형식으로 작성합니다.
 
 일관성 규칙:
-- 어떤 기준의 점수가 **4.0 미만**이면, 해당 기준의 정성 피드백에는 반드시 **구체적인 약점**과 **개선 제안**을 최소 1개 이상 포함하세요.
+- 어떤 기준의 점수가 **4.0 미만**이면, 해당 기준의 정성 피드백에는 반드시 **구체적인 약점**과 **개선 제안**을 최소 2개 이상 포함하세요.
+- 점수가 3.0 이하인 항목은 특히 집중적으로 분석하고, 약점 섹션에서 최소 3개 이상의 구체적 사례를 제시하세요.
+- 정성 피드백의 강점/약점 분석이 정량 점수와 일치해야 합니다 (높은 점수 항목은 강점 중심, 낮은 점수 항목은 약점 중심).
 
 반드시 정량 평가와 정성 피드백을 구분하여 출력해야 합니다.
 """
@@ -375,10 +377,11 @@ def analyze_transcript(transcript, segments):
 - 평균적인 강의는 3.0~3.5점 수준이며, 우수한 강의는 4.0~4.5점입니다.
 
 **약점 및 개선 제안 작성 시 필수 사항:**
-- 약점을 언급할 때는 **반드시 자막에서 해당 부분의 실제 텍스트를 인용**하세요.
-- 예시: "'여기서 중요한 건... 음... 그러니까...'라는 부분에서 군말이 과도하게 사용됨"
-- 예시: "'첫 번째로 설명드릴 내용은...'부터 약 2분간 서론이 지나치게 길어 본론 진입이 늦어짐"
-- 구체적인 증거 없이 추상적으로만 약점을 언급하지 마세요.
+- 약점을 언급할 때는 **반드시 자막에서 해당 부분의 실제 텍스트를 직접 인용**하세요.
+- 예시: "약점: '여기서 중요한 건... 음... 그러니까...'라는 부분에서 군말이 과도하게 사용되고 있습니다."
+- 예시: "약점: '첫 번째로 설명드릴 내용은...'부터 약 2분간 서론이 지나치게 길어 본론 진입이 늦어집니다."
+- 각 약점마다 **구체적인 자막 인용**을 포함해야 하며, 추상적으로만 언급하지 마세요.
+- 강점과 약점, 개선제안을 명확하게 구분하여 작성하세요.
 
 규정된 5가지 기준에 따라 1.0점부터 5.0점까지 점수를 부여하고, 아래와 같은 형식으로 결과를 출력해주세요.
 
@@ -406,17 +409,46 @@ def analyze_transcript(transcript, segments):
 
 ### 2. 정성 피드백
 
+**정성 피드백 작성 규칙:**
+각 평가 기준마다 아래 형식을 따라 작성하세요:
+1. **강점**: 현재 강의에서 잘한 부분 (구체적 사례 포함)
+2. **약점**: 개선이 필요한 부분 (반드시 자막에서 직접 인용한 사례와 함께 설명)
+3. **개선제안**: 구체적이고 실행 가능한 개선 방안
+
 #### 🎯 청중 적합성 및 목표 달성
-[구체적 강점 및 약점 분석]
+**강점:** [구체적인 강점 사항]
+
+**약점:** [약점 설명 + 자막 인용 예시: "예: '내용' 부분에서 ..."]
+
+**개선제안:** [구체적인 개선 방안]
 
 #### 📢 음성 및 발음 명료도
-[구체적 강점 및 약점 분석, 군말 사용 언급]
+**강점:** [구체적인 강점 사항]
+
+**약점:** [약점 설명 + 군말/발음 문제 자막 인용 예시: "예: '...음... ...'와 같이 군말 사용"]
+
+**개선제안:** [구체적인 개선 방안]
 
 #### ⏱️ 속도 및 완급 조절
-[구체적 강점 및 약점 분석]
+**강점:** [구체적인 강점 사항]
+
+**약점:** [약점 설명 + 속도/완급 문제 자막 인용 예시]
+
+**개선제안:** [구체적인 개선 방안]
 
 #### 🏗️ 강의 구조 및 흐름
-[구체적 강점 및 약점 분석]
+**강점:** [구체적인 강점 사항]
+
+**약점:** [약점 설명 + 구조 문제 자막 인용 예시: "예: '...' 부분부터 약 X분간 ..."]
+
+**개선제안:** [구체적인 개선 방안]
+
+#### 🔥 몰입 유도 및 흥미도
+**강점:** [구체적인 강점 사항]
+
+**약점:** [약점 설명 + 몰입도 부족 자막 인용 예시]
+
+**개선제안:** [구체적인 개선 방안]
 
 #### 🔥 몰입 유도 및 흥미도
 [구체적 강점 및 약점 분석]
@@ -458,8 +490,13 @@ def get_chat_response(messages, initial_feedback, transcript=""):
         {transcript}
         ---
         
-        이 피드백과 자막을 참고하여 구체적이고 실용적인 조언을 제공하세요. 
-        사용자가 특정 부분에 대해 질문하면 자막에서 해당 부분을 찾아 인용하며 답변하세요.
+        **대화 가이드:**
+        1. 사용자의 질문에 답변할 때, 분석 피드백의 정성평가 섹션에서 언급된 강점/약점/개선제안을 직접 참고하세요.
+        2. 사용자가 특정 항목(예: 음성 명료도, 강의 구조 등)에 대해 질문하면, 그 항목에 대한 정성평가 내용을 중심으로 답변하세요.
+        3. 자막에서 해당 부분을 직접 인용하여 구체적이고 실질적인 조언을 제공하세요.
+        4. 약점에 대한 질문에는 제시된 개선제안을 바탕으로 실행 가능한 방법들을 제시하세요.
+        5. 정량평가의 점수가 낮은 항목에 대해서는 더욱 상세하고 집중적인 조언을 제공하세요.
+        
         친절하고 전문적인 톤으로 대화하세요."""
     }
     try:
@@ -617,155 +654,143 @@ elif analyze_button:
 if st.session_state.video_analyzed:
     st.markdown("---")
     st.header("📊 시연강의 분석 레포트")
+    st.markdown("레포트는 생성형 AI기반으로 작성되었습니다.\n\n정확하지 않을 수 있으니 참고용으로만 활용 부탁드리겠습니다")
     
     # 🌟 1. 평가 기준 안내 🌟
-    st.subheader("1. 평가 기준")
-    st.markdown("""
-    **5가지 핵심 평가 기준 안내:**
-    - **🎯 청중 적합성 및 목표 달성**: 강의 내용, 용어, 난이도가 청중의 니즈와 학습 목표에 부합하는지 평가
-    - **📢 음성 및 발음 명료도**: 발음의 정확성, 전달력, 군말(음, 아, 그) 사용 빈도 등 음성적 명료성 평가
-    - **⏱️ 속도 및 완급 조절**: 강의 진행 속도의 적절성 및 중요 내용 강조를 위한 완급 조절 능력 평가
-    - **🏗️ 강의 구조 및 흐름**: 서론-본론-결론의 구조적 명확성과 내용 간 논리적 연결성 평가
-    - **🔥 몰입 유도 및 흥미도**: 질문, 비유, 예시 등을 활용한 청중 집중력 유지 및 흥미 유발 능력 평가
-    """)
-    
+    with st.expander("1. 평가 기준", expanded=False):
+        st.markdown("""
+        **5가지 핵심 평가 기준 안내:**
+        - **🎯 청중 적합성 및 목표 달성**: 강의 내용, 용어, 난이도가 청중의 니즈와 학습 목표에 부합하는지 평가
+        - **📢 음성 및 발음 명료도**: 발음의 정확성, 전달력, 군말(음, 아, 그) 사용 빈도 등 음성적 명료성 평가
+        - **⏱️ 속도 및 완급 조절**: 강의 진행 속도의 적절성 및 중요 내용 강조를 위한 완급 조절 능력 평가
+        - **🏗️ 강의 구조 및 흐름**: 서론-본론-결론의 구조적 명확성과 내용 간 논리적 연결성 평가
+        - **🔥 몰입 유도 및 흥미도**: 질문, 비유, 예시 등을 활용한 청중 집중력 유지 및 흥미 유발 능력 평가
+        """)
     st.markdown("---")
-    
     # 🌟 2. 정량 평가 (점수 시각화) 🌟
     if st.session_state.scores:
-        st.subheader("2. 정량 평가")
-        
-        # 점수 데이터 준비
-        categories = list(st.session_state.scores.keys())
-        values = list(st.session_state.scores.values())
-        
-        # ECharts 오각형(레이더) 차트 옵션 - 블랙 톤
-        option = {
-            "backgroundColor": "#0a0a0a",
-            "title": {
-                "text": "분석 결과",
-                "left": "center",
-                "textStyle": {
-                    "color": "#ffffff",
-                    "fontSize": 20,
-                    "fontWeight": "bold"
-                }
-            },
-            "tooltip": {
-                "backgroundColor": "#1a1a1a",
-                "borderColor": "#667eea",
-                "textStyle": {
-                    "color": "#e0e0e0"
-                }
-            },
-            "radar": {
-                "indicator": [
-                    {"name": cat, "max": 5} for cat in categories
-                ],
-                "radius": 120,
-                "splitNumber": 5,
-                "axisName": {
-                    "color": "#e0e0e0",
-                    "fontSize": 12,
-                    "fontWeight": "bold"
-                },
-                "splitLine": {
-                    "lineStyle": {
-                        "color": "#333333"
-                    }
-                },
-                "splitArea": {
-                    "areaStyle": {
-                        "color": ["#1a1a1a", "#0f0f0f"]
-                    }
-                },
-                "axisLine": {
-                    "lineStyle": {
-                        "color": "#667eea"
-                    }
-                }
-            },
-            "series": [{
-                "name": "평가 점수",
-                "type": "radar",
-                "data": [{
-                    "value": values,
-                    "name": "점수",
-                    "label": {
-                        "show": True,
-                        "formatter": "{c}",
-                        "fontSize": 14,
-                        "fontWeight": "bold",
-                        "color": "#667eea"
+        with st.expander("2. 정량 평가", expanded=False):
+            # 점수 데이터 준비
+            categories = list(st.session_state.scores.keys()) if st.session_state.scores else []
+            values = list(st.session_state.scores.values()) if st.session_state.scores else []
+            
+            if categories and values and len(categories) == len(values):
+                # ECharts 오각형(레이더) 차트 옵션 - 블랙 톤
+                option = {
+                    "backgroundColor": "#0a0a0a",
+                    "title": {
+                        "text": "분석 결과",
+                        "left": "center",
+                        "textStyle": {
+                            "color": "#ffffff",
+                            "fontSize": 20,
+                            "fontWeight": "bold"
+                        }
                     },
-                    "areaStyle": {
-                        "color": "rgba(102, 126, 234, 0.3)"
+                    "tooltip": {
+                        "backgroundColor": "#1a1a1a",
+                        "borderColor": "#667eea",
+                        "textStyle": {
+                            "color": "#e0e0e0"
+                        }
                     },
-                    "lineStyle": {
-                        "color": "#667eea",
-                        "width": 3
+                    "radar": {
+                        "indicator": [
+                            {"name": cat, "max": 5} for cat in categories
+                        ],
+                        "radius": 120,
+                        "splitNumber": 5,
+                        "axisName": {
+                            "color": "#e0e0e0",
+                            "fontSize": 12,
+                            "fontWeight": "bold"
+                        },
+                        "splitLine": {
+                            "lineStyle": {
+                                "color": "#333333"
+                            }
+                        },
+                        "splitArea": {
+                            "areaStyle": {
+                                "color": ["#1a1a1a", "#0f0f0f"]
+                            }
+                        },
+                        "axisLine": {
+                            "lineStyle": {
+                                "color": "#667eea"
+                            }
+                        }
                     },
-                    "itemStyle": {
-                        "color": "#764ba2",
-                        "borderWidth": 3,
-                        "borderColor": "#667eea"
-                    }
-                }]
-            }]
-        }
-        
-        st_echarts(options=option, height="450px")
-        
-        # 정량 평가 근거 표시 (항목별 의견)
-        if 'rationales' in st.session_state and st.session_state.rationales:
-            st.markdown("**항목별 점수 근거:**")
-            for cat in categories:
-                rationale = st.session_state.rationales.get(cat, "")
-                if rationale:
-                    st.markdown(f"- **{cat}**: {rationale}")
-    
+                    "series": [{
+                        "name": "평가 점수",
+                        "type": "radar",
+                        "data": [{
+                            "value": values,
+                            "name": "점수",
+                            "label": {
+                                "show": True,
+                                "formatter": "{c}",
+                                "fontSize": 14,
+                                "fontWeight": "bold",
+                                "color": "#667eea"
+                            },
+                            "areaStyle": {
+                                "color": "rgba(102, 126, 234, 0.3)"
+                            },
+                            "lineStyle": {
+                                "color": "#667eea",
+                                "width": 3
+                            },
+                            "itemStyle": {
+                                "color": "#764ba2",
+                                "borderWidth": 3,
+                                "borderColor": "#667eea"
+                            }
+                        }]
+                    }]
+                }
+                st_echarts(options=option, height="450px", key=f"radar_chart_{hash(str(values))}")
+            else:
+                st.warning("점수 데이터가 올바르지 않습니다.")
+            
+            # 점수 근거
+            if 'rationales' in st.session_state and st.session_state.rationales:
+                st.markdown("**항목별 점수 근거:**")
+                for cat in categories:
+                    rationale = st.session_state.rationales.get(cat, "")
+                    if rationale:
+                        st.markdown(f"- **{cat}**: {rationale}")
+            else:
+                st.markdown("점수 근거가 없습니다.")
     st.markdown("---")
-    
     # 🌟 3. 정성 평가 (상세 피드백) 🌟
-    st.subheader("3. 정성 평가")
-    
-    # GPT 피드백에서 "### 1. 정량 평가 (점수)" 섹션 제거
-    feedback_text = st.session_state.feedback
-    # "### 1. 정량 평가 (점수)" 부터 "### 2. 정성 피드백" 직전까지 제거
-    feedback_text = re.sub(r'###\s*1\.\s*정량\s*평가.*?(?=###\s*2\.\s*정성)', '', feedback_text, flags=re.DOTALL)
-    # "### 2. 정성 피드백" 헤더도 제거
-    feedback_text = re.sub(r'###\s*2\.\s*정성\s*피드백\s*', '', feedback_text)
-    
-    st.markdown(feedback_text)
-    
-    with st.expander("🔎 나의 스크립트 보기"):
-        st.text_area("자막", value=st.session_state.transcript, height=200, disabled=True)
+    with st.expander("3. 정성 평가", expanded=False):
+        feedback_text = st.session_state.feedback
+        feedback_text = re.sub(r'###\s*1\.\s*정량\s*평가.*?(?=###\s*2\.\s*정성)', '', feedback_text, flags=re.DOTALL)
+        feedback_text = re.sub(r'###\s*2\.\s*정성\s*피드백\s*', '', feedback_text)
+        st.markdown(feedback_text)
+        with st.expander("🔎 나의 스크립트 보기", expanded=False):
+            st.text_area("자막", value=st.session_state.transcript, height=200, disabled=True)
     st.markdown("---")
-    
-    # 🌟 4. 피드백 관련 채팅 🌟
-    st.subheader("4. GPT와 채팅하기")
-    st.markdown("피드백에 대해 추가적인 조언을 받아보세요.")
-    
-    # 채팅 메시지 표시
-    chat_container = st.container()
-    with chat_container:
-        for i, message in enumerate(st.session_state.messages):
-            if i == 0: 
-                continue
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
-    
-    # 채팅 입력창 (form 사용하여 엔터키 지원 + 자동 초기화)
-    with st.form(key="chat_form", clear_on_submit=True):
-        user_input = st.text_input("메시지를 입력하세요...", key="chat_input", label_visibility="collapsed")
-        submit_button = st.form_submit_button("전송", use_container_width=True)
-        
-    if submit_button and user_input:
-        st.session_state.messages.append({"role": "user", "content": user_input})
-        with st.spinner("답변 생성 중..."):
-            response = get_chat_response(st.session_state.messages, st.session_state.feedback, st.session_state.transcript)
-        st.session_state.messages.append({"role": "assistant", "content": response})
-        st.rerun()
+    # 🌟 4. GPT와 채팅하기 🌟
+    with st.expander("4. GPT와 채팅하기", expanded=False):
+        st.markdown("피드백에 대해 추가적인 조언을 받아보세요.")
+        chat_container = st.container()
+        with chat_container:
+            for i, message in enumerate(st.session_state.messages):
+                if i == 0:
+                    continue
+                with st.chat_message(message["role"]):
+                    st.markdown(message["content"])
+        with st.form(key="chat_form", clear_on_submit=True):
+            user_input = st.text_input("메시지를 입력하세요...", key="chat_input", label_visibility="collapsed")
+            submit_button = st.form_submit_button("전송", use_container_width=True)
+        if submit_button and user_input:
+            st.session_state.messages.append({"role": "user", "content": user_input})
+            with st.spinner("답변 생성 중..."):
+                response = get_chat_response(st.session_state.messages, st.session_state.feedback, st.session_state.transcript)
+            st.session_state.messages.append({"role": "assistant", "content": response})
+            st.rerun()
 
 # 분석 전 안내 메시지
 else:
