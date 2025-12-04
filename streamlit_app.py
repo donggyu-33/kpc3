@@ -668,100 +668,81 @@ if st.session_state.video_analyzed:
         """)
     st.markdown("---")
     # 🌟 2. 정량 평가 (점수 시각화) 🌟
-    if st.session_state.scores:
+    if st.session_state.scores and len(st.session_state.scores) > 0:
         with st.expander("2. 정량 평가", expanded=False):
-            # 점수 데이터 준비
-            categories = list(st.session_state.scores.keys()) if st.session_state.scores else []
-            values = list(st.session_state.scores.values()) if st.session_state.scores else []
-            
-            if categories and values and len(categories) == len(values):
-                # ECharts 오각형(레이더) 차트 옵션 - 블랙 톤
-                option = {
-                    "backgroundColor": "#0a0a0a",
-                    "title": {
-                        "text": "분석 결과",
-                        "left": "center",
-                        "textStyle": {
-                            "color": "#ffffff",
-                            "fontSize": 20,
-                            "fontWeight": "bold"
-                        }
-                    },
-                    "tooltip": {
-                        "backgroundColor": "#1a1a1a",
-                        "borderColor": "#667eea",
-                        "textStyle": {
-                            "color": "#e0e0e0"
-                        }
-                    },
-                    "radar": {
-                        "indicator": [
-                            {"name": cat, "max": 5} for cat in categories
-                        ],
-                        "radius": 120,
-                        "splitNumber": 5,
-                        "axisName": {
-                            "color": "#e0e0e0",
-                            "fontSize": 12,
-                            "fontWeight": "bold"
-                        },
-                        "splitLine": {
-                            "lineStyle": {
-                                "color": "#333333"
+            try:
+                # 점수 데이터 준비
+                categories = list(st.session_state.scores.keys())
+                values = list(st.session_state.scores.values())
+                
+                # 데이터 유효성 검사
+                if not categories or not values or len(categories) != len(values):
+                    st.warning("점수 데이터가 올바르지 않습니다.")
+                else:
+                    # 값이 숫자인지 확인
+                    try:
+                        values = [float(v) for v in values]
+                    except (ValueError, TypeError):
+                        st.warning("점수 값이 숫자가 아닙니다.")
+                    else:
+                        # 명시적 컨테이너 생성
+                        chart_container = st.container()
+                        
+                        with chart_container:
+                            # ECharts 오각형(레이더) 차트 옵션 - 블랙 톤
+                            option = {
+                                "title": {
+                                    "text": "분석 결과",
+                                    "left": "center",
+                                    "textStyle": {
+                                        "color": "#ffffff",
+                                        "fontSize": 18,
+                                        "fontWeight": "bold"
+                                    }
+                                },
+                                "tooltip": {
+                                    "textStyle": {
+                                        "color": "#e0e0e0"
+                                    }
+                                },
+                                "radar": {
+                                    "indicator": [
+                                        {"name": cat, "max": 5} for cat in categories
+                                    ],
+                                    "shape": "polygon",
+                                    "radius": "60%"
+                                },
+                                "series": [{
+                                    "name": "점수",
+                                    "type": "radar",
+                                    "data": [{
+                                        "value": values,
+                                        "name": "평가 점수",
+                                        "areaStyle": {
+                                            "color": "rgba(102, 126, 234, 0.3)"
+                                        },
+                                        "lineStyle": {
+                                            "color": "#667eea"
+                                        },
+                                        "itemStyle": {
+                                            "color": "#764ba2"
+                                        }
+                                    }]
+                                }]
                             }
-                        },
-                        "splitArea": {
-                            "areaStyle": {
-                                "color": ["#1a1a1a", "#0f0f0f"]
-                            }
-                        },
-                        "axisLine": {
-                            "lineStyle": {
-                                "color": "#667eea"
-                            }
-                        }
-                    },
-                    "series": [{
-                        "name": "평가 점수",
-                        "type": "radar",
-                        "data": [{
-                            "value": values,
-                            "name": "점수",
-                            "label": {
-                                "show": True,
-                                "formatter": "{c}",
-                                "fontSize": 14,
-                                "fontWeight": "bold",
-                                "color": "#667eea"
-                            },
-                            "areaStyle": {
-                                "color": "rgba(102, 126, 234, 0.3)"
-                            },
-                            "lineStyle": {
-                                "color": "#667eea",
-                                "width": 3
-                            },
-                            "itemStyle": {
-                                "color": "#764ba2",
-                                "borderWidth": 3,
-                                "borderColor": "#667eea"
-                            }
-                        }]
-                    }]
-                }
-                st_echarts(options=option, height="450px", key=f"radar_chart_{hash(str(values))}")
-            else:
-                st.warning("점수 데이터가 올바르지 않습니다.")
-            
-            # 점수 근거
-            if 'rationales' in st.session_state and st.session_state.rationales:
-                st.markdown("**항목별 점수 근거:**")
-                for cat in categories:
-                    rationale = st.session_state.rationales.get(cat, "")
-                    if rationale:
-                        st.markdown(f"- **{cat}**: {rationale}")
-            else:
-                st.markdown("점수 근거가 없습니다.")
+                            
+                            st_echarts(options=option, height="400px", key=f"radar_{id(st.session_state.scores)}")
+                        
+                        # 점수 근거
+                        st.markdown("---")
+                        if 'rationales' in st.session_state and st.session_state.rationales:
+                            st.markdown("**항목별 점수 근거:**")
+                            for cat in categories:
+                                rationale = st.session_state.rationales.get(cat, "")
+                                if rationale:
+                                    st.markdown(f"- **{cat}**: {rationale}")
+            except Exception as e:
+                st.error(f"정량 평가 렌더링 중 오류: {str(e)}")
     st.markdown("---")
     # 🌟 3. 정성 평가 (상세 피드백) 🌟
     with st.expander("3. 정성 평가", expanded=False):
