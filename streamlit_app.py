@@ -739,7 +739,6 @@ if st.session_state.video_analyzed:
                                         }
                                     }]
                                 }]
-                                }]
                             }
                             
                             st_echarts(options=option, height="400px", key=f"radar_{id(st.session_state.scores)}")
