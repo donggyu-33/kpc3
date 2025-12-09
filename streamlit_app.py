@@ -56,9 +56,23 @@ st.markdown("""
         font-weight: 600 !important;
         transition: all 0.3s ease !important;
     }
+    
+    /* 분석하기 버튼의 모든 자식 요소 */
+    div[data-testid="column"]:nth-of-type(1) button * {
+        color: #ffffff !important;
+        fill: #ffffff !important;
+    }
+    
+    /* 분석하기 버튼 hover */
     div[data-testid="column"]:nth-of-type(1) button:hover {
         transform: translateY(-2px) !important;
         box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3) !important;
+    }
+    
+    /* 분석하기 버튼 hover의 모든 자식 요소 */
+    div[data-testid="column"]:nth-of-type(1) button:hover * {
+        color: #ffffff !important;
+        fill: #ffffff !important;
     }
     
     /* 초기화 버튼 */
@@ -70,16 +84,64 @@ st.markdown("""
         font-size: 14px !important;
         transition: all 0.3s ease !important;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        caret-color: #000000 !important;
     }
+    
+    /* 초기화 버튼의 모든 자식 요소 - 더 강력하게 */
+    div[data-testid="column"]:nth-of-type(2) button,
+    div[data-testid="column"]:nth-of-type(2) button *,
+    div[data-testid="column"]:nth-of-type(2) button *::before,
+    div[data-testid="column"]:nth-of-type(2) button *::after {
+        color: #000000 !important;
+        fill: #000000 !important;
+        stroke: #000000 !important;
+        text-shadow: none !important;
+    }
+    
+    /* 초기화 버튼 내 텍스트 노드 */
+    div[data-testid="column"]:nth-of-type(2) button div,
+    div[data-testid="column"]:nth-of-type(2) button p,
+    div[data-testid="column"]:nth-of-type(2) button span,
+    div[data-testid="column"]:nth-of-type(2) button svg {
+        color: #000000 !important;
+        fill: #000000 !important;
+    }
+    
+    /* 초기화 버튼 hover */
     div[data-testid="column"]:nth-of-type(2) button:hover {
         background-color: #f0f0f0 !important;
         border-color: #667eea !important;
         color: #000000 !important;
         box-shadow: 0 4px 8px rgba(102, 126, 234, 0.2) !important;
     }
+    
+    /* 초기화 버튼 hover의 모든 자식 요소 - 더 강력하게 */
+    div[data-testid="column"]:nth-of-type(2) button:hover,
+    div[data-testid="column"]:nth-of-type(2) button:hover *,
+    div[data-testid="column"]:nth-of-type(2) button:hover *::before,
+    div[data-testid="column"]:nth-of-type(2) button:hover *::after {
+        color: #000000 !important;
+        fill: #000000 !important;
+        stroke: #000000 !important;
+    }
+    
+    /* 초기화 버튼 active */
     div[data-testid="column"]:nth-of-type(2) button:active {
         background-color: #e0e0e0 !important;
         color: #000000 !important;
+    }
+    
+    /* 초기화 버튼 active의 모든 자식 요소 */
+    div[data-testid="column"]:nth-of-type(2) button:active,
+    div[data-testid="column"]:nth-of-type(2) button:active * {
+        color: #000000 !important;
+        fill: #000000 !important;
+    }
+    
+    /* 초기화 버튼 active의 모든 자식 요소 */
+    div[data-testid="column"]:nth-of-type(2) button:active * {
+        color: #000000 !important;
+        fill: #000000 !important;
     }
     
     /* 파일 업로더 스타일 */
@@ -742,15 +804,20 @@ if st.session_state.video_analyzed:
                         # Plotly를 사용한 레이더 차트
                         fig = go.Figure()
                         
+                        # 폐곡선을 만들기 위해 첫 번째 점을 마지막에 추가
+                        categories_closed = categories + [categories[0]]
+                        values_closed = values + [values[0]]
+                        text_closed = [f'{v:.1f}' for v in values] + [f'{values[0]:.1f}']
+                        
                         fig.add_trace(go.Scatterpolar(
-                            r=values,
-                            theta=categories,
+                            r=values_closed,
+                            theta=categories_closed,
                             fill='toself',
                             name='평가 점수',
                             line=dict(color='#667eea', width=2),
                             fillcolor='rgba(102, 126, 234, 0.3)',
                             mode='lines+markers+text',
-                            text=[f'{v:.1f}' for v in values],  # 점수 표기
+                            text=text_closed,  # 점수 표기
                             textposition='top center',
                             textfont=dict(color='#667eea', size=13, family='Arial Black'),
                             marker=dict(
