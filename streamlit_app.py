@@ -63,15 +63,17 @@ st.markdown("""
     
     /* 초기화 버튼 */
     div[data-testid="column"]:nth-of-type(2) button {
-        background-color: #1a1a1a !important;
-        color: #e0e0e0 !important;
-        border: 1px solid #333333 !important;
-        font-weight: 600 !important;
+        background-color: #f5f5f5 !important;
+        color: #000000 !important;
+        border: 2px solid #cccccc !important;
+        font-weight: 700 !important;
+        font-size: 14px !important;
         transition: all 0.3s ease !important;
     }
     div[data-testid="column"]:nth-of-type(2) button:hover {
-        background-color: #2a2a2a !important;
-        border: 1px solid #667eea !important;
+        background-color: #e8e8e8 !important;
+        border-color: #667eea !important;
+        color: #000000 !important;
     }
     
     /* 파일 업로더 스타일 */
@@ -203,12 +205,8 @@ st.markdown("""
     
     /* 특정 Primary 버튼 (분석하기) - 흰 글씨 유지 */
     div[data-testid="column"]:nth-of-type(1) button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         color: #ffffff !important;
-    }
-    
-    /* 초기화 버튼 */
-    div[data-testid="column"]:nth-of-type(2) button {
-        color: #000000 !important;
     }
     
     /* Form 전송 버튼 */
