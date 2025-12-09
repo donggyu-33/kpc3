@@ -406,6 +406,8 @@ if "scores" not in st.session_state:
     st.session_state.scores = {}
 if "analyzing" not in st.session_state:
     st.session_state.analyzing = False
+if "uploaded_file_name" not in st.session_state:
+    st.session_state.uploaded_file_name = None
 
 
 # --- 핵심 함수 영역 ---
@@ -638,7 +640,13 @@ st.markdown("---")
 st.header("👨‍🏫 시연강의 업로드")
 # JS로 텍스트를 변경하므로, Python의 st.warning은 간결하게 유지
 st.warning("⚠️ 필수: 음성 파일은 10MB 이하로 업로드해주세요.")
-uploaded_file = st.file_uploader("분석할 강의 시연 음성 파일을 업로드하세요 (mp3, wav, m4a 등)", type=["mp3", "wav", "m4a", "aac"])
+
+# 초기화 후 파일 업로더 상태를 초기화하기 위해 key 사용
+uploaded_file = st.file_uploader(
+    "분석할 강의 시연 음성 파일을 업로드하세요 (mp3, wav, m4a 등)", 
+    type=["mp3", "wav", "m4a", "aac"],
+    key=f"file_uploader_{st.session_state.video_analyzed}"  # 분석 상태에 따라 key 변경
+)
 
 # 분석 중 상태 표시
 if st.session_state.get('analyzing', False):
@@ -665,6 +673,8 @@ if reset_button:
     st.session_state.segments = []
     st.session_state.scores = {}
     st.session_state.analyzing = False
+    st.session_state.uploaded_file_name = None  # 업로드된 파일 정보 초기화
+    # 파일 업로더 상태도 초기화되도록 rerun 호출
     st.rerun()
 
 
