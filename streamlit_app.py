@@ -308,7 +308,8 @@ def transcribe_audio(audio_path):
         transcript_json = client.audio.transcriptions.create(
             model="whisper-1",
             file=audio_file,
-            response_format="verbose_json"
+            response_format="verbose_json",
+            language="ko"
         )
     
     transcript = transcript_json.text if hasattr(transcript_json, 'text') else ""
@@ -705,12 +706,30 @@ if st.session_state.video_analyzed:
                                         "color": "#e0e0e0"
                                     }
                                 },
+                                "animation": True,
+                                "animationDuration": 800,
                                 "radar": {
                                     "indicator": [
                                         {"name": cat, "max": 5} for cat in categories
                                     ],
                                     "shape": "polygon",
-                                    "radius": "60%"
+                                    "radius": "60%",
+                                    "splitNumber": 4,
+                                    "name": {
+                                        "textStyle": {
+                                            "color": "#e0e0e0"
+                                        }
+                                    },
+                                    "splitLine": {
+                                        "lineStyle": {
+                                            "color": ["#333333", "#555555", "#777777", "#999999"]
+                                        }
+                                    },
+                                    "axisLine": {
+                                        "lineStyle": {
+                                            "color": "#666666"
+                                        }
+                                    }
                                 },
                                 "series": [{
                                     "name": "점수",
@@ -741,7 +760,7 @@ if st.session_state.video_analyzed:
                                 }]
                             }
                             
-                            st_echarts(options=option, height="400px", key=f"radar_{id(st.session_state.scores)}")
+                            st_echarts(options=option, height="500px", width="100%", key=f"radar_{id(st.session_state.scores)}")
                         
                         # 점수 근거
                         st.markdown("---")
