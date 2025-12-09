@@ -408,6 +408,8 @@ if "analyzing" not in st.session_state:
     st.session_state.analyzing = False
 if "uploaded_file_name" not in st.session_state:
     st.session_state.uploaded_file_name = None
+if "uploaded_file_size" not in st.session_state:
+    st.session_state.uploaded_file_size = None
 
 
 # --- 핵심 함수 영역 ---
@@ -652,15 +654,24 @@ uploaded_file = st.file_uploader(
 if st.session_state.get('analyzing', False):
     st.info("🔄 분석 중입니다... 잠시만 기다려주세요.")
 
+# 업로드된 파일 정보 저장 및 표시
 if uploaded_file:
+    # 새로운 파일이 업로드되었을 때 session state에 저장
+    st.session_state.uploaded_file_name = uploaded_file.name
+    st.session_state.uploaded_file_size = uploaded_file.size / 1024 / 1024
+    
     file_size_mb = uploaded_file.size / 1024 / 1024
     st.caption(f"📎 업로드된 파일: {uploaded_file.name} ({file_size_mb:.2f}MB)")
     if file_size_mb > 10:
         st.error(f"⚠️ 파일 크기가 {file_size_mb:.2f}MB로 10MB를 초과합니다. 10MB 이하의 파일을 업로드해주세요.")
+elif st.session_state.get('uploaded_file_name'):
+    # 분석 후에도 업로드된 파일 정보 표시
+    file_size_mb = st.session_state.uploaded_file_size
+    st.caption(f"📎 업로드된 파일: {st.session_state.uploaded_file_name} ({file_size_mb:.2f}MB)")
 
 col1, col2 = st.columns([1, 1])
 with col1:
-    analyze_button = st.button("분석하기", type="primary", use_container_width=True, disabled=st.session_state.get('analyzing', False))
+    analyze_button = st.button("분석하기", type="primary", use_container_width=True, disabled=st.session_state.get('analyzing', False) or not uploaded_file)
 with col2:
     reset_button = st.button("초기화", use_container_width=True)
 
@@ -674,6 +685,7 @@ if reset_button:
     st.session_state.scores = {}
     st.session_state.analyzing = False
     st.session_state.uploaded_file_name = None  # 업로드된 파일 정보 초기화
+    st.session_state.uploaded_file_size = None
     # 파일 업로더 상태도 초기화되도록 rerun 호출
     st.rerun()
 
