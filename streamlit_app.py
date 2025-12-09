@@ -698,10 +698,10 @@ if st.session_state.video_analyzed:
                             fillcolor='rgba(102, 126, 234, 0.3)',
                             mode='lines+markers+text',
                             text=[f'{v:.1f}' for v in values],  # 점수 표기
-                            textposition='outside',
+                            textposition='top center',
                             textfont=dict(color='#667eea', size=13, family='Arial Black'),
                             marker=dict(
-                                size=8,
+                                size=10,
                                 color='#764ba2',
                                 line=dict(color='#667eea', width=2)
                             ),
