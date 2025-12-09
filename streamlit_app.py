@@ -671,7 +671,13 @@ elif st.session_state.get('uploaded_file_name'):
 
 col1, col2 = st.columns([1, 1])
 with col1:
-    analyze_button = st.button("분석하기", type="primary", use_container_width=True, disabled=st.session_state.get('analyzing', False) or not uploaded_file)
+    # "분석하기" 버튼: 파일이 업로드되었거나 이전에 파일이 있었을 때 활성화
+    analyze_button = st.button(
+        "분석하기", 
+        type="primary", 
+        use_container_width=True, 
+        disabled=st.session_state.get('analyzing', False) or (not uploaded_file and not st.session_state.get('uploaded_file_name'))
+    )
 with col2:
     reset_button = st.button("초기화", use_container_width=True)
 
@@ -691,23 +697,34 @@ if reset_button:
 
 
 # 음성 분석 처리
-if analyze_button and uploaded_file:
+if analyze_button and (uploaded_file or st.session_state.get('uploaded_file_name')):
     # 분석 중 상태로 설정
     st.session_state.analyzing = True
     
+    # 새로운 파일이 업로드된 경우 또는 기존 파일로 재분석하는 경우
+    current_file = uploaded_file if uploaded_file else None
+    
+    if not current_file and st.session_state.get('uploaded_file_name'):
+        # 재분석: 기존 파일로 다시 분석하려고 함
+        # 이 경우 임시 파일을 다시 생성할 수 없으므로 사용자에게 파일을 다시 업로드하도록 요청
+        st.warning("재분석을 위해서는 파일을 다시 업로드해주세요.")
+        st.session_state.analyzing = False
+        st.stop()
+    
     # 파일 크기 체크 (10MB = 10485760 bytes)
-    file_size = uploaded_file.size
+    file_size = current_file.size
     file_size_mb = file_size / 1024 / 1024
     
     if file_size > 10485760:  # 10MB
         st.error(f"⚠️ 파일 크기가 {file_size_mb:.2f}MB로 너무 큽니다. 10MB 이하의 파일을 업로드해주세요.")
+        st.session_state.analyzing = False
         st.stop()
     
     try:
         # tempfile을 사용하여 업로드된 파일의 확장자를 유지
-        temp_suffix = os.path.splitext(uploaded_file.name)[1]
+        temp_suffix = os.path.splitext(current_file.name)[1]
         with tempfile.NamedTemporaryFile(delete=False, suffix=temp_suffix) as tmp_audio:
-            tmp_audio.write(uploaded_file.read())
+            tmp_audio.write(current_file.read())
             tmp_audio_path = tmp_audio.name
         
         st.info(f"📤 파일 업로드 완료 ({file_size_mb:.2f}MB)")
