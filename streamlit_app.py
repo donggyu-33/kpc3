@@ -696,6 +696,15 @@ if st.session_state.video_analyzed:
                             name='평가 점수',
                             line=dict(color='#667eea', width=2),
                             fillcolor='rgba(102, 126, 234, 0.3)',
+                            mode='lines+markers+text',
+                            text=[f'{v:.1f}' for v in values],  # 점수 표기
+                            textposition='outside',
+                            textfont=dict(color='#667eea', size=13, family='Arial Black'),
+                            marker=dict(
+                                size=8,
+                                color='#764ba2',
+                                line=dict(color='#667eea', width=2)
+                            ),
                             hovertemplate='<b>%{theta}</b><br>점수: %{r:.1f}<extra></extra>'
                         ))
                         
@@ -710,7 +719,8 @@ if st.session_state.video_analyzed:
                                 ),
                                 angularaxis=dict(
                                     tickfont=dict(color='#e0e0e0', size=12),
-                                    linecolor='#666666'
+                                    linecolor='#666666',
+                                    rotation=90  # 한 꼭지점이 상단으로 오도록 회전
                                 ),
                                 bgcolor='rgba(10, 10, 10, 0.5)'
                             ),
@@ -724,8 +734,8 @@ if st.session_state.video_analyzed:
                             paper_bgcolor='#0a0a0a',
                             plot_bgcolor='#0a0a0a',
                             font=dict(color='#e0e0e0', family='Arial'),
-                            margin=dict(l=80, r=80, t=100, b=80),
-                            height=500
+                            margin=dict(l=100, r=100, t=120, b=100),
+                            height=550
                         )
                         
                         st.plotly_chart(fig, use_container_width=True)
