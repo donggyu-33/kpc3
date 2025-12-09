@@ -4,7 +4,7 @@ import tempfile
 import os
 import time
 import re 
-from streamlit_echarts import st_echarts # 시각화 라이브러리 추가
+import plotly.graph_objects as go
 
 # 페이지 설정
 st.set_page_config(
@@ -686,81 +686,49 @@ if st.session_state.video_analyzed:
                     except (ValueError, TypeError):
                         st.warning("점수 값이 숫자가 아닙니다.")
                     else:
-                        # 명시적 컨테이너 생성
-                        chart_container = st.container()
+                        # Plotly를 사용한 레이더 차트
+                        fig = go.Figure()
                         
-                        with chart_container:
-                            # ECharts 오각형(레이더) 차트 옵션 - 블랙 톤
-                            option = {
-                                "title": {
-                                    "text": "분석 결과",
-                                    "left": "center",
-                                    "textStyle": {
-                                        "color": "#ffffff",
-                                        "fontSize": 18,
-                                        "fontWeight": "bold"
-                                    }
-                                },
-                                "tooltip": {
-                                    "textStyle": {
-                                        "color": "#e0e0e0"
-                                    }
-                                },
-                                "animation": True,
-                                "animationDuration": 800,
-                                "radar": {
-                                    "indicator": [
-                                        {"name": cat, "max": 5} for cat in categories
-                                    ],
-                                    "shape": "polygon",
-                                    "radius": "60%",
-                                    "splitNumber": 4,
-                                    "name": {
-                                        "textStyle": {
-                                            "color": "#e0e0e0"
-                                        }
-                                    },
-                                    "splitLine": {
-                                        "lineStyle": {
-                                            "color": ["#333333", "#555555", "#777777", "#999999"]
-                                        }
-                                    },
-                                    "axisLine": {
-                                        "lineStyle": {
-                                            "color": "#666666"
-                                        }
-                                    }
-                                },
-                                "series": [{
-                                    "name": "점수",
-                                    "type": "radar",
-                                    "data": [{
-                                        "value": values,
-                                        "name": "평가 점수",
-                                        "areaStyle": {
-                                            "color": "rgba(102, 126, 234, 0.3)"
-                                        },
-                                        "lineStyle": {
-                                            "color": "#667eea"
-                                        },
-                                        "itemStyle": {
-                                            "color": "#764ba2",
-                                            "borderColor": "#667eea",
-                                            "borderWidth": 2
-                                        },
-                                        "label": {
-                                            "show": True,
-                                            "formatter": "{c}",
-                                            "color": "#667eea",
-                                            "fontSize": 12,
-                                            "fontWeight": "bold",
-                                            "distance": 8
-                                        }
-                                    }]
-                                }]
-                            }
-                            
-                            st_echarts(options=option, height="500px", width="100%", key=f"radar_{id(st.session_state.scores)}")
+                        fig.add_trace(go.Scatterpolar(
+                            r=values,
+                            theta=categories,
+                            fill='toself',
+                            name='평가 점수',
+                            line=dict(color='#667eea', width=2),
+                            fillcolor='rgba(102, 126, 234, 0.3)',
+                            hovertemplate='<b>%{theta}</b><br>점수: %{r:.1f}<extra></extra>'
+                        ))
+                        
+                        fig.update_layout(
+                            polar=dict(
+                                radialaxis=dict(
+                                    visible=True,
+                                    range=[0, 5],
+                                    tickcolor='#666666',
+                                    gridcolor='#333333',
+                                    tickfont=dict(color='#e0e0e0', size=11),
+                                ),
+                                angularaxis=dict(
+                                    tickfont=dict(color='#e0e0e0', size=12),
+                                    linecolor='#666666'
+                                ),
+                                bgcolor='rgba(10, 10, 10, 0.5)'
+                            ),
+                            showlegend=False,
+                            title=dict(
+                                text='분석 결과',
+                                font=dict(color='#ffffff', size=18),
+                                x=0.5,
+                                xanchor='center'
+                            ),
+                            paper_bgcolor='#0a0a0a',
+                            plot_bgcolor='#0a0a0a',
+                            font=dict(color='#e0e0e0', family='Arial'),
+                            margin=dict(l=80, r=80, t=100, b=80),
+                            height=500
+                        )
+                        
+                        st.plotly_chart(fig, use_container_width=True)
                         
                         # 점수 근거
                         st.markdown("---")
