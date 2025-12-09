@@ -291,7 +291,20 @@ st.markdown("""
     
     /* Form 전송 버튼 */
     .stForm button {
-        color: #000000 !important;
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+    }
+    .stForm button:hover {
+        background: linear-gradient(135deg, #c0392b 0%, #a93226 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3) !important;
+    }
+    .stForm button p,
+    .stForm button span {
+        color: #ffffff !important;
     }
     }
     
