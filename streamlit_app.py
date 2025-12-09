@@ -63,16 +63,22 @@ st.markdown("""
     
     /* 초기화 버튼 */
     div[data-testid="column"]:nth-of-type(2) button {
-        background-color: #f5f5f5 !important;
+        background-color: #ffffff !important;
         color: #000000 !important;
-        border: 2px solid #cccccc !important;
+        border: 2px solid #999999 !important;
         font-weight: 700 !important;
         font-size: 14px !important;
         transition: all 0.3s ease !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
     }
     div[data-testid="column"]:nth-of-type(2) button:hover {
-        background-color: #e8e8e8 !important;
+        background-color: #f0f0f0 !important;
         border-color: #667eea !important;
+        color: #000000 !important;
+        box-shadow: 0 4px 8px rgba(102, 126, 234, 0.2) !important;
+    }
+    div[data-testid="column"]:nth-of-type(2) button:active {
+        background-color: #e0e0e0 !important;
         color: #000000 !important;
     }
     
@@ -197,6 +203,14 @@ st.markdown("""
         color: #000000 !important;
     }
     
+    /* Streamlit 버튼 내부 엘리먼트 */
+    div[data-testid="column"]:nth-of-type(2) button p {
+        color: #000000 !important;
+    }
+    div[data-testid="column"]:nth-of-type(2) button span {
+        color: #000000 !important;
+    }
+    
     /* Primary 버튼 텍스트 색상 (검은 배경 및 그라디언트) */
     button[kind="primary"],
     .stButton > button {
@@ -208,10 +222,15 @@ st.markdown("""
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         color: #ffffff !important;
     }
+    div[data-testid="column"]:nth-of-type(1) button p,
+    div[data-testid="column"]:nth-of-type(1) button span {
+        color: #ffffff !important;
+    }
     
     /* Form 전송 버튼 */
     .stForm button {
         color: #000000 !important;
+    }
     }
     
     /* Secondary 버튼 */
