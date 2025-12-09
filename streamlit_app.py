@@ -190,6 +190,42 @@ st.markdown("""
         font-weight: 600 !important;
     }
     
+    /* 모든 버튼의 텍스트 색상 (흰 배경 대비) */
+    button {
+        color: #000000 !important;
+    }
+    
+    /* Primary 버튼 텍스트 색상 (검은 배경 및 그라디언트) */
+    button[kind="primary"],
+    .stButton > button {
+        color: #000000 !important;
+    }
+    
+    /* 특정 Primary 버튼 (분석하기) - 흰 글씨 유지 */
+    div[data-testid="column"]:nth-of-type(1) button {
+        color: #ffffff !important;
+    }
+    
+    /* 초기화 버튼 */
+    div[data-testid="column"]:nth-of-type(2) button {
+        color: #000000 !important;
+    }
+    
+    /* Form 전송 버튼 */
+    .stForm button {
+        color: #000000 !important;
+    }
+    
+    /* Secondary 버튼 */
+    button[kind="secondary"] {
+        color: #000000 !important;
+    }
+    
+    /* File uploader 버튼 */
+    section[data-testid="stFileUploadDropzone"] button {
+        color: #000000 !important;
+    }
+    
     /* 사이드바 */
     section[data-testid="stSidebar"] {
         background-color: #0f0f0f !important;
